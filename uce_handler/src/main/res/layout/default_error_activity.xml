@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+  <androidx.appcompat.widget.AppCompatImageView
+      android:id="@+id/ivCustom"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="-32dp"
+      android:src="@drawable/customactivityoncrash_error_image" />
+
+  <LinearLayout
+      android:id="@+id/lnContainer"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/ivCustom"
+      android:gravity="center"
+      android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/ask_for_error_log"
+        android:textColor="#212121"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/button_view_error_log"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="View Error Log"
+        android:textColor="#212121"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/button_copy_error_log"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Copy Error Log"
+        android:textColor="#212121"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/button_share_error_log"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Share Error Log"
+        android:textColor="#212121"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/button_email_error_log"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Email Log"
+        android:textColor="#212121" />
+
+    <Button
+        android:id="@+id/button_save_error_log"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Save Error Log"
+        android:textColor="#212121"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnRestartApp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Restart App"
+        android:textColor="#212121" />
+
+    <Button
+        android:id="@+id/button_close_app"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Close App"
+        android:textColor="#212121" />
+  </LinearLayout>
+</RelativeLayout>
