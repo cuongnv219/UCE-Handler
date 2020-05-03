@@ -14,11 +14,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btnCrash.setOnClickListener {
-            val bundle = Bundle();
-            bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "id");
-            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "name");
-            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
-            mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM, bundle)
+
+            throw RuntimeException("Okok")
         }
     }
 }

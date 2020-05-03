@@ -1,6 +1,5 @@
 package com.uce.handle;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -31,15 +30,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-public final class UCEDefaultActivity extends Activity {
+public final class UCEDefaultActivity extends AppCompatActivity {
     private File txtFile;
     private String strCurrentErrorLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(android.R.style.Theme_Holo_Light_DarkActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.default_error_activity);
         findViewById(R.id.button_close_app).setOnClickListener(new View.OnClickListener() {
@@ -188,7 +187,7 @@ public final class UCEDefaultActivity extends Activity {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-        share.putExtra(Intent.EXTRA_SUBJECT, "Application Crash Error Log");
+        share.putExtra(Intent.EXTRA_SUBJECT, "Application Error Log");
         share.putExtra(Intent.EXTRA_TEXT, errorLog);
         startActivity(Intent.createChooser(share, "Share Error Log"));
     }
@@ -207,8 +206,8 @@ public final class UCEDefaultActivity extends Activity {
         if (TextUtils.isEmpty(strCurrentErrorLog)) {
             String LINE_SEPARATOR = "\n";
             StringBuilder errorReport = new StringBuilder();
-            errorReport.append("***** UCE HANDLER Library ");
-            errorReport.append("\n***** DEVICE INFO \n");
+            errorReport.append("***** UCE HANDLER *****");
+            errorReport.append("\n***** DEVICE INFO *****\n");
             errorReport.append("Brand: ");
             errorReport.append(Build.BRAND);
             errorReport.append(LINE_SEPARATOR);
@@ -230,7 +229,7 @@ public final class UCEDefaultActivity extends Activity {
             errorReport.append("Release: ");
             errorReport.append(Build.VERSION.RELEASE);
             errorReport.append(LINE_SEPARATOR);
-            errorReport.append("\n***** APP INFO \n");
+            errorReport.append("\n***** APP INFO *****\n");
             String versionName = getVersionName(context);
             errorReport.append("Version: ");
             errorReport.append(versionName);
@@ -252,13 +251,13 @@ public final class UCEDefaultActivity extends Activity {
             errorReport.append("Current Date: ");
             errorReport.append(dateFormat.format(currentDate));
             errorReport.append(LINE_SEPARATOR);
-            errorReport.append("\n***** ERROR LOG \n");
+            errorReport.append("\n***** ERROR LOG *****\n");
             errorReport.append(getStackTraceFromIntent(intent));
             errorReport.append(LINE_SEPARATOR);
             String activityLog = getActivityLogFromIntent(intent);
             errorReport.append(LINE_SEPARATOR);
             if (activityLog != null) {
-                errorReport.append("\n***** USER ACTIVITIES \n");
+                errorReport.append("\n***** USER ACTIVITIES *****\n");
                 errorReport.append("User Activities: ");
                 errorReport.append(activityLog);
                 errorReport.append(LINE_SEPARATOR);
