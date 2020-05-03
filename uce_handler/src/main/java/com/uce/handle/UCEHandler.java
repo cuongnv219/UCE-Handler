@@ -1,4 +1,4 @@
-package com.rohitss.uceh;
+package com.uce.handle;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,7 +10,9 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
+import com.uce.crash.CrashReportingManager;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -25,16 +27,13 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 
-/**
- * Created by Rohit.
- */
 public final class UCEHandler {
     static final String EXTRA_STACK_TRACE = "EXTRA_STACK_TRACE";
     static final String EXTRA_ACTIVITY_LOG = "EXTRA_ACTIVITY_LOG";
     private final static String TAG = "UCEHandler";
-    private static final String UCE_HANDLER_PACKAGE_NAME = "com.rohitss.uceh";
+    private static final String UCE_HANDLER_PACKAGE_NAME = "com.uce";
     private static final String DEFAULT_HANDLER_PACKAGE_NAME = "com.android.internal.os";
-    private static final String INTENT_ACTION_ERROR_ACTIVITY = "com.rohitss.uceh.ERROR";
+    private static final String INTENT_ACTION_ERROR_ACTIVITY = "com.uce.ERROR";
 
     private static final int MAX_STACK_TRACE_SIZE = 131071; //128 KB - 1
     private static final int MAX_ACTIVITIES_IN_LOG = 50;
@@ -50,7 +49,6 @@ public final class UCEHandler {
     private static boolean isBackgroundMode;
     private static boolean isUCEHEnabled;
     private static boolean isTrackActivitiesEnabled;
-    private static boolean isCollected;
 
     private static Class<? extends Activity> restartActivityClass = null;
     private static Class<? extends Activity> errorActivityClass = null;
@@ -64,7 +62,6 @@ public final class UCEHandler {
         isBackgroundMode = builder.isBackgroundModeEnabled;
         COMMA_SEPARATED_EMAIL_ADDRESSES = builder.commaSeparatedEmailAddresses;
         errorActivityClass = builder.errorActivityClass;
-        isCollected = builder.isCollected;
         setUCEHandler(builder.context);
     }
 
@@ -82,10 +79,8 @@ public final class UCEHandler {
                     //Setup UCE Handler.
                     Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                         @Override
-                        public void uncaughtException(Thread thread, final Throwable throwable) {
-                            if (isCollected) {
-                                Crashlytics.logException(throwable);
-                            }
+                        public void uncaughtException(@NotNull Thread thread, @NotNull final Throwable throwable) {
+                            CrashReportingManager.logException(throwable, true);
 
                             if (isUCEHEnabled) {
                                 Log.e(TAG, "App crashed, executing UCEHandler's UncaughtExceptionHandler", throwable);
@@ -146,7 +141,7 @@ public final class UCEHandler {
                         int currentlyStartedActivities = 0;
 
                         @Override
-                        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                        public void onActivityCreated(@NotNull Activity activity, Bundle savedInstanceState) {
                             if (activity.getClass() != errorActivityClass) {
                                 lastActivityCreated = new WeakReference<>(activity);
                             }
@@ -156,37 +151,37 @@ public final class UCEHandler {
                         }
 
                         @Override
-                        public void onActivityStarted(Activity activity) {
+                        public void onActivityStarted(@NotNull Activity activity) {
                             currentlyStartedActivities++;
                             isInBackground = (currentlyStartedActivities == 0);
                         }
 
                         @Override
-                        public void onActivityResumed(Activity activity) {
+                        public void onActivityResumed(@NotNull Activity activity) {
                             if (isTrackActivitiesEnabled) {
                                 activityLog.add(dateFormat.format(new Date()) + ": " + activity.getClass().getSimpleName() + " resumed\n");
                             }
                         }
 
                         @Override
-                        public void onActivityPaused(Activity activity) {
+                        public void onActivityPaused(@NotNull Activity activity) {
                             if (isTrackActivitiesEnabled) {
                                 activityLog.add(dateFormat.format(new Date()) + ": " + activity.getClass().getSimpleName() + " paused\n");
                             }
                         }
 
                         @Override
-                        public void onActivityStopped(Activity activity) {
+                        public void onActivityStopped(@NotNull Activity activity) {
                             currentlyStartedActivities--;
                             isInBackground = (currentlyStartedActivities == 0);
                         }
 
                         @Override
-                        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+                        public void onActivitySaveInstanceState(@NotNull Activity activity, @NotNull Bundle outState) {
                         }
 
                         @Override
-                        public void onActivityDestroyed(Activity activity) {
+                        public void onActivityDestroyed(@NotNull Activity activity) {
                             if (isTrackActivitiesEnabled) {
                                 activityLog.add(dateFormat.format(new Date()) + ": " + activity.getClass().getSimpleName() + " destroyed\n");
                             }
@@ -299,7 +294,6 @@ public final class UCEHandler {
 
         private boolean isTrackActivitiesEnabled = false;
         private boolean isBackgroundModeEnabled = true;
-        private boolean isCollected = false;
 
         public Builder(Context context) {
             this.context = context;
@@ -331,15 +325,6 @@ public final class UCEHandler {
 
         public Class<? extends Activity> getErrorActivityClass() {
             return errorActivityClass;
-        }
-
-        public boolean isCollected() {
-            return isCollected;
-        }
-
-        public Builder setCollected(boolean collected) {
-            isCollected = collected;
-            return this;
         }
 
         public Builder setErrorActivityClass(Class<? extends Activity> errorActivityClass) {

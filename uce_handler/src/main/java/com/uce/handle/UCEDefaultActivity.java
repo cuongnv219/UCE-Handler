@@ -1,4 +1,4 @@
-package com.rohitss.uceh;
+package com.uce.handle;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +20,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.uce.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -185,7 +187,7 @@ public final class UCEDefaultActivity extends Activity {
         String errorLog = getAllErrorDetailsFromIntent(UCEDefaultActivity.this, getIntent());
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
-        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         share.putExtra(Intent.EXTRA_SUBJECT, "Application Crash Error Log");
         share.putExtra(Intent.EXTRA_TEXT, errorLog);
         startActivity(Intent.createChooser(share, "Share Error Log"));
@@ -206,7 +208,6 @@ public final class UCEDefaultActivity extends Activity {
             String LINE_SEPARATOR = "\n";
             StringBuilder errorReport = new StringBuilder();
             errorReport.append("***** UCE HANDLER Library ");
-            errorReport.append("\n***** by Rohit Surwase \n");
             errorReport.append("\n***** DEVICE INFO \n");
             errorReport.append("Brand: ");
             errorReport.append(Build.BRAND);

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "69491856405",
+    "firebase_url": "https://uce-handler.firebaseio.com",
+    "project_id": "uce-handler",
+    "storage_bucket": "uce-handler.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69491856405:android:3d22e5487892ec33cbaa1c",
+        "android_client_info": {
+          "package_name": "com.katana"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69491856405-0ef98d0hu32ntc0e14hlndn0lp6n1eha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6_FzbFEfq75sBqxrDuzaeABKq8koD8dQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69491856405-0ef98d0hu32ntc0e14hlndn0lp6n1eha.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

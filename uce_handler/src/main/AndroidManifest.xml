@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.rohitss.uceh">
+    package="com.uce">
 
   <application>
     <activity
-        android:name=".UCEDefaultActivity"
+        android:name="com.uce.handle.UCEDefaultActivity"
         android:process=":error_activity" />
 
     <provider
-        android:name=".UCEFileProvider"
+        android:name="com.uce.handle.UCEFileProvider"
         android:authorities="${applicationId}.provider"
         android:exported="false"
         android:grantUriPermissions="true">
@@ -17,5 +17,4 @@
           android:resource="@xml/provider_paths" />
     </provider>
   </application>
-
 </manifest>
